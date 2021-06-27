@@ -1,10 +1,7 @@
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 from flask import Flask
 from flaskext.mysql import MySQL
-import config
 
 import numpy as np
 
@@ -12,26 +9,8 @@ import numpy as np
 app = Flask(__name__)
 app.secret_key= 'secret'
 
-#config
-app.config['MYSQL_DATABASE_USER'] = config.MYSQL_DATABASE_USER
-app.config['MYSQL_DATABASE_PASSWORD'] = config.MYSQL_DATABASE_PASSWORD
-app.config['MYSQL_DATABASE_DB'] = config.MYSQL_DATABASE_DB
-app.config['MYSQL_DATABASE_HOST'] = config.MYSQL_DATABASE_HOST
-
-#init MySQL
-mysql = MySQL()
-mysql.init_app(app)
 
 def get_data():
-    # MySQL not working yet
-    # #create Cursor
-    # cur = mysql.get_db().cursor() #to execute commands
-    # cur.execute("USE attributs")
-    #
-    # #get articles
-    # result = cur.execute("SELECT * FROM attributs")
-    # #should retrieve all as a dictionary
-    # perfumes = cur.fetchall()
     perfumes_scores = pd.read_csv("https://raw.githubusercontent.com/antoinecomp/todowoo/main/data_management/attributes.csv")
     perfumes_scores = perfumes_scores.set_index('_id')
     perfumes_scores.columns = map(str.lower, perfumes_scores.columns)
