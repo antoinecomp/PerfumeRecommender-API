@@ -1,5 +1,4 @@
 import pandas as pd
-import scipy.sparse as sp
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -37,18 +36,6 @@ def get_data():
     perfumes_scores = perfumes_scores.set_index('_id')
     perfumes_scores.columns = map(str.lower, perfumes_scores.columns)
     return perfumes_scores
-
-
-def transform_data(data_combine, data_plot):
-    count = CountVectorizer(stop_words='english')
-    count_matrix = count.fit_transform(data_combine['combine'])
-
-    tfidf = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = tfidf.fit_transform(data_plot['plot'])
-
-    combine_sparse = sp.hstack([count_matrix, tfidf_matrix], format='csr')
-
-    cosine_sim = cosine_similarity(combine_sparse, combine_sparse)
 
 def recommend_perfumes(perfumes_scores, features):
     # on prend uniquement les scores compris dans les features
