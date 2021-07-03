@@ -1,7 +1,5 @@
 import pandas as pd
-
 from flask import Flask
-from flaskext.mysql import MySQL
 
 import numpy as np
 
